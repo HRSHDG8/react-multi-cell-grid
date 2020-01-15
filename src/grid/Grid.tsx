@@ -5,6 +5,7 @@ import TableBody from '../components/table-body/TableBody';
 import classNames from './Grid.css';
 import DataType from '../util/grid.data.type';
 import { ColumnDefination, ColumnData, SortDirection } from '../defination/column/column-defination';
+import GridApi from '../api/GridApi';
 interface GridState {
     data: any[];
     checked: boolean;
@@ -13,6 +14,15 @@ class Grid extends React.Component<GridProps>{
     state: GridState = {
         data: [],
         checked: false
+    }
+    gridApi: GridApi = new GridApi(this);
+    componentDidMount() {
+        if (this.props.gridReady) {
+            this.props.gridReady(this.gridApi);
+        }
+    }
+    update() {
+        this.setState({ update: Math.random() });
     }
     constructor(props: GridProps) {
         super(props);
@@ -33,12 +43,14 @@ class Grid extends React.Component<GridProps>{
             }
         });
     }
-    sort(key: string) {
+    private sort(key: string) {
+        let data = [...this.state.data];
         this.props.columnDef.forEach((value: ColumnDefination) => {
             let cellElem = value.data.find((e: ColumnData) => e.key === key);
+            value.data.filter((e: ColumnData) => e.key !== key && e.sortable).forEach((e: ColumnData) => e.sortDir = null);
             if (cellElem) {
                 cellElem.sortDir = SortDirection[(SortDirection.indexOf(cellElem.sortDir) + 1) % 3];
-                let data = [...this.state.data];
+
                 switch (cellElem.sortDir) {
                     case "asc":
                         data.sort((a, b) => a[key] > b[key] ? 1 : -1);
@@ -47,18 +59,17 @@ class Grid extends React.Component<GridProps>{
                         data.sort((a, b) => a[key] < b[key] ? 1 : -1);
                         break;
                     default: break;
-                }
-
-                this.setState({ data: data }, () => { console.log(this.state, this.props) });
+                };
             }
-        })
+        });
+        this.setState({ data: data });
     }
-    checkRow(row: any) {
+    private checkRow(row: any) {
         let rowObject = this.state.data.find(rowData => row._uuId === rowData._uuId);
         rowObject.checked = !rowObject.checked;
-        this.setState({ checked: this.state.data.reduce((a: any, b: any) => a.checked && b.checked) }, () => { console.log(this.state, this.props) })
+        this.setState({ checked: this.state.data.reduce((a: boolean, b: any) => a && b.checked, true) });
     }
-    checkAll() {
+    private checkAll() {
         let data = this.state.data.map(e => { e.checked = !this.state.checked; return e });
         this.setState((state: GridState) => {
             state.data = data;

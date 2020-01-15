@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class TableHeader extends React.Component<TableHeaderProps>{
     getSortIcon(sortDir: any): JSX.Element {
-        console.log("called", sortDir);
         switch (sortDir) {
             case "asc":
                 return <FontAwesomeIcon icon="sort-up" />
