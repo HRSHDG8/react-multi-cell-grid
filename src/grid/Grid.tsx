@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GridProps } from './Grid.props';
 import TableHeader from '../components/table-header/TableHeader';
 import TableBody from '../components/table-body/TableBody';
+import TableFooter from '../components/table-footer/TableFooter';
 import classNames from './Grid.css';
 import DataType from '../util/grid.data.type';
 import { ColumnDefination, ColumnData, SortDirection } from '../defination/column/column-defination';
@@ -82,9 +83,7 @@ class Grid extends React.Component<GridProps>{
             <table className={classNames.gridContainer}>
                 <TableHeader columnDef={this.props.columnDef} checkAll={this.checkAll} checked={this.state.checked} onSort={this.sort} />
                 <TableBody columnDef={this.props.columnDef} data={this.state.data} rowChecked={this.checkRow} />
-                <tfoot>
-
-                </tfoot>
+                <TableFooter columnDef={this.props.columnDef} selected={this.state.data.filter(e => e.checked).length} />
             </table>
         )
     }
