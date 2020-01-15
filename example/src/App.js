@@ -22,7 +22,8 @@ const columnDef = [{
   data: [
     {
       key: "firstName",
-      label: "First Name"
+      label: "First Name",
+      sortable: true
     },
     {
       key: "lastName",
