@@ -4,4 +4,5 @@ export type TableFooterProps = {
     columnDef: ColumnDefination[];
     selected?: number;
     total?: number;
+    theme: any;
 }

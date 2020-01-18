@@ -7,30 +7,25 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSortUp, faSortDown, faSort } from '@fortawesome/free-solid-svg-icons';
 library.add(faSortUp, faSortDown, faSort);
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 class TableHeader extends React.Component<TableHeaderProps>{
     getSortIcon(sortDir: any): JSX.Element {
         switch (sortDir) {
             case "asc":
-                return <FontAwesomeIcon icon="sort-up" />
+                return <FontAwesomeIcon icon="sort-up" className={classNames.iconPad} />
             case "desc":
-                return <FontAwesomeIcon icon="sort-down" />
+                return <FontAwesomeIcon icon="sort-down" className={classNames.iconPad} />
             default:
-                return <FontAwesomeIcon icon="sort" />
+                return <FontAwesomeIcon icon="sort" className={classNames.iconPad} />
         }
     }
     handleSort(cellElem: ColumnData) {
         if (cellElem.sortable) {
-            if (cellElem.sort === undefined) {
-                this.props.onSort(cellElem.key);
-            } else {
-                //customSort cellElem.sort()
-            }
+            this.props.onSort(cellElem.key);
         }
     }
     render() {
         return (
-            <thead>
+            <thead className={this.props.theme.tableHeader}>
                 <tr className={classNames.headerRow}>
                     {this.props.columnDef.map((columnData: ColumnDefination, index: number) => {
                         return <th key={index} className={classNames.headerDataTh}>

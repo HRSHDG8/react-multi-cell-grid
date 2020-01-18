@@ -1,9 +1,5 @@
-.headerRow {
-    text-align: left
+.footerAlign {
+    float: right;
+    padding-right: 5px;
+    font-size: 15px;
 }
-
-.headerDataTh {
-    vertical-align: top;
-}
-
-.sortableColumn {}
