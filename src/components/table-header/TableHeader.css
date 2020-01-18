@@ -4,6 +4,14 @@
 
 .headerDataTh {
     vertical-align: top;
+    padding: 4px;
 }
 
-.sortableColumn {}
+.sortableColumn {
+    cursor: pointer;
+}
+
+.iconPad {
+    margin-left: 5px;
+    float: right;
+}

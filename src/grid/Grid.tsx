@@ -51,13 +51,14 @@ class Grid extends React.Component<GridProps>{
             value.data.filter((e: ColumnData) => e.key !== key && e.sortable).forEach((e: ColumnData) => e.sortDir = null);
             if (cellElem) {
                 cellElem.sortDir = SortDirection[(SortDirection.indexOf(cellElem.sortDir) + 1) % 3];
-
+                const comparator = cellElem.sort || ((a: any, b: any) => a[key] > b[key] ? 1 : -1);
                 switch (cellElem.sortDir) {
                     case "asc":
-                        data.sort((a, b) => a[key] > b[key] ? 1 : -1);
+                        console.log(comparator)
+                        data.sort(comparator);
                         break;
                     case "desc":
-                        data.sort((a, b) => a[key] < b[key] ? 1 : -1);
+                        data.reverse();
                         break;
                     default: break;
                 };
@@ -80,10 +81,10 @@ class Grid extends React.Component<GridProps>{
     }
     render() {
         return (
-            <table className={classNames.gridContainer}>
-                <TableHeader columnDef={this.props.columnDef} checkAll={this.checkAll} checked={this.state.checked} onSort={this.sort} />
-                <TableBody columnDef={this.props.columnDef} data={this.state.data} rowChecked={this.checkRow} />
-                <TableFooter columnDef={this.props.columnDef} selected={this.state.data.filter(e => e.checked).length} />
+            <table className={classNames.gridContainer + " " + this.props.theme.tableBorder}>
+                <TableHeader columnDef={this.props.columnDef} checkAll={this.checkAll} checked={this.state.checked} onSort={this.sort} theme={this.props.theme} />
+                <TableBody columnDef={this.props.columnDef} data={this.state.data} rowChecked={this.checkRow} theme={this.props.theme} />
+                <TableFooter columnDef={this.props.columnDef} selected={this.state.data.filter(e => e.checked).length} total={this.state.data.length} theme={this.props.theme} />
             </table>
         )
     }

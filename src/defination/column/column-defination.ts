@@ -1,4 +1,5 @@
 import DataType from "../../util/grid.data.type";
+import { comparator } from "../../util/funtion.type";
 
 export interface ColumnDefination {
     type: DataType;
@@ -10,7 +11,7 @@ export interface ColumnData {
     label: string;
     sortable?: boolean;
     sortDir: string | null;
-    sort?: Function;
+    sort?: comparator;
 }
 
 export const SortDirection = [null, "asc", "desc"];
